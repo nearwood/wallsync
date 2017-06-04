@@ -5,7 +5,7 @@ PowerShell script to sync desktop wallpaper to the logon/lock screen.
 
 **Windows 7 only**
 
-The first time it is run it will need administrator priviledges to create the folder structure needed in the `%SystemRoot%\system32` folder (namely: `%SystemRoot%\system32\oobe\info\backgrounds`). It will then set the permissions of the `backgrounds` folder to allow user writes for future background changes without administrator access.
+The first time it is run it will need administrator privileges to create the folder structure needed in the `%SystemRoot%\system32` folder (namely: `%SystemRoot%\system32\oobe\info\backgrounds`). It will then set the permissions of the `backgrounds` folder to allow user writes for future background changes without administrator access.
 
 If you have your desktop background set to multiple images in rotation, you can then set the script to run every X minutes using Windows Scheduler to sync it more-or-less with the current desktop background.
 
