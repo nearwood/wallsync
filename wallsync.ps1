@@ -1,4 +1,4 @@
-$logonBgDir = "C:\Windows\System32\oobe\info\backgrounds"
+$logonBgDir = "%SystemRoot%\System32\oobe\info\backgrounds"
 $logonBgFile = "backgroundDefault.jpg"
 
 #First run, need admin access to create folder and file for first time, set permissions
