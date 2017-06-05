@@ -1,8 +1,11 @@
 #WM_SETTINGCHANGE - SystemEvents.UserPreferenceChanged
 #Must be enabled: Group Policy: Computer Configuration\Administrative Templates\System\Logon\Always use custom logon background
+#Just run as system: schtasks /create /tn myTask /tr "powershell -NoLogo -WindowStyle hidden -file myScript.ps1" /sc minute /mo 15 /ru System
+#-WindowStyle Hidden || -NoExit
 
 $logonBgDir = "$(Get-Content ENV:SystemRoot)\System32\oobe\info\backgrounds"
 $logonBgFile = "backgroundDefault.jpg"
+$tempBgFile = "_$logonBgFile"
 
 #First run, need admin access to create folder and file for first time, set permissions
 if (!(Test-Path "$logonBgDir")) {#TODO Or permissions are not good enough
@@ -56,17 +59,19 @@ $image = $imageProcess.Apply($image)
 
 Write-Host "Resized file to: $($image.Width)x$($image.Height)"
 
-if (Test-Path "$logonBgDir\$logonBgFile") {
-    Write-Host "Removing old file"
-    Remove-Item "$logonBgDir\$logonBgFile"
+Write-Host "Saving resized file to temporary file: $logonBgDir\$tempBgFile"
+if (Test-Path "$logonBgDir\$tempBgFile") {
+    Write-Host "Removing old temp file"
+    Remove-Item "$logonBgDir\$tempBgFile"
 }
 
-Write-Host "Saving resized file"
-$image.SaveFile("$logonBgDir\$logonBgFile")
+$image.SaveFile("$logonBgDir\$tempBgFile")
 
-$imageSize = (Get-Item "$logonBgDir\$logonBgFile").length
+$imageSize = (Get-Item "$logonBgDir\$tempBgFile").length
 Write-Host "Image size is: $imageSize" #262144
 if ($imageSize -gt 262144) {
     Write-Error "Image size is too large for Windows to handle"
     #TODO Resize again
+} else {
+    Move-Item -Force "$logonBgDir\$tempBgFile" -Destination "$logonBgDir\$logonBgFile"
 }
