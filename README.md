@@ -3,7 +3,10 @@ PowerShell script to sync desktop wallpaper to the logon/lock screen.
 
 ## Usage
 
-**Windows 7 only**
+**Windows XP/Visa/7 only** (maybe earlier)
+
+You must enable the following group policy to allow custom logon screen backgrounds:
+`Computer Configuration\Administrative Templates\System\Logon\Always use custom logon background`
 
 The first time it is run it will need administrator privileges to create the folder structure needed in the `%SystemRoot%\system32` folder (namely: `%SystemRoot%\system32\oobe\info\backgrounds`). It will then set the permissions of the `backgrounds` folder to allow user writes for future background changes without administrator access.
 

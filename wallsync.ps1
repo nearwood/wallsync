@@ -1,3 +1,6 @@
+#WM_SETTINGCHANGE - SystemEvents.UserPreferenceChanged
+#Must be enabled: Group Policy: Computer Configuration\Administrative Templates\System\Logon\Always use custom logon background
+
 $logonBgDir = "$(Get-Content ENV:SystemRoot)\System32\oobe\info\backgrounds"
 $logonBgFile = "backgroundDefault.jpg"
 
@@ -26,8 +29,6 @@ function Get-RegValue([String] $KeyPath, [String] $ValueName) {
 
 $bgFile = Get-RegValue 'HKCU:\Software\Microsoft\Internet Explorer\Desktop\General' 'WallpaperSource'
 
-#group policy: Computer Configuration\Administrative Templates\System\Logon\Always use custom logon background must be enabled
-
 #Get primary monitor resolution
 Add-Type -AssemblyName System.Windows.Forms
 $primaryMonitor = [System.Windows.Forms.SystemInformation]::PrimaryMonitorSize
@@ -42,7 +43,7 @@ if ($primaryMonitor.Height -lt $primaryMonitor.Width) {
 
 #Get current bg image resolution
 $image = New-Object -ComObject Wia.ImageFile
-$image.LoadFile(“$bgFile”)
+$image.LoadFile("$bgFile")
 Write-Host "Image: $bgFile is $($image.Width)x$($image.Height)"
 
 $imageProcess = New-Object -ComObject Wia.ImageProcess
