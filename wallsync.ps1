@@ -68,8 +68,8 @@ if (Test-Path "$logonBgDir\$tempBgFile") {
 $image.SaveFile("$logonBgDir\$tempBgFile")
 
 $imageSize = (Get-Item "$logonBgDir\$tempBgFile").length
-Write-Host "Image size is: $imageSize" #262144
-if ($imageSize -gt 262144) {
+Write-Host "Image size is: $imageSize" #real 256KB (262144 bytes) too much
+if ($imageSize -ge 256000) {
     Write-Error "Image size is too large for Windows to handle"
     #TODO Resize again
 } else {
